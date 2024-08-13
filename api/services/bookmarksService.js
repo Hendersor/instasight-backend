@@ -7,13 +7,21 @@ class bookmarksService {
       user: "Hendersor",
     };
 
-    if (id === 24) {
+    if (id === "24") {
       return allData;
 
     } else {
       throw Boom.notFound("Bookmark not found!");
 
     }
+  }
+
+  async createBookmark(){
+
+  }
+
+  async getAllBookmarks(){
+    
   }
 }
 

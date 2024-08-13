@@ -1,9 +1,7 @@
 import Express from 'express'
-import Boom from '@hapi/boom'
 import { bookmarksService } from '../services/bookmarksService.js'
 
 const router = Express.Router()
-
 
 router.get('/', async(req, res) => {
     const data = {bookmarks: "1"}
@@ -13,8 +11,8 @@ router.get('/', async(req, res) => {
 router.delete('/:id', async(req, res, next)=> {
     try{
       const service = new bookmarksService;
-      const idBookmark = req.body
-      const response  = await service.deleteBookmark(idBookmark)
+      const {id} = req.params
+      const response  = await service.deleteBookmark(id)
       res.json(response)
     }
     catch(err){
@@ -29,21 +27,5 @@ router.post("/", async(req, res) => {
     res.json(newBookmark)
 })
 
-
-router.get("/test-boom-error", (req, res, next) => {
-  try {
-    throw Boom.notFound("Simulated Boom error");
-  } catch (err) {
-    next(err);
-  }
-});
-
-router.get("/test-generic-error", (req, res, next) => {
-  try {
-    throw new Error("Simulated generic error");
-  } catch (err) {
-    next(err);
-  }
-});
 
 export {router}
