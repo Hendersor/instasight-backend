@@ -1,5 +1,7 @@
 import Express from 'express'
 import { bookmarksService } from '../services/bookmarksService.js'
+import { schemaValidator } from '../middlewares/schemaValidator.js'
+import { deleteBookmarkSchema } from '../schemas/bookmarksSchema.js'
 
 const router = Express.Router()
 
@@ -8,7 +10,7 @@ router.get('/', async(req, res) => {
     res.json(data)
 })
 
-router.delete('/:id', async(req, res, next)=> {
+router.delete('/:id', schemaValidator(deleteBookmarkSchema, params), async(req, res, next)=> {
     try{
       const service = new bookmarksService;
       const {id} = req.params
