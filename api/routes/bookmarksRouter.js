@@ -23,7 +23,7 @@ router.delete('/:id', schemaValidator(deleteBookmarkSchema, params), async(req, 
 
 })
 
-router.post("/", async(req, res) => {
+router.post("/", schemaValidator(), async(req, res) => {
     const body = req.body;
     const newBookmark = body
     res.json(newBookmark)
