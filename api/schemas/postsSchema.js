@@ -2,7 +2,7 @@ import Joi from 'joi'
 
 
 const id = Joi.string().guid({version:"uuidv4"})
-const description = Joi.string().alphanum()
+const description = Joi.string().trim()
 const imageUrl = Joi.string().uri()
 const uploadedDate = Joi.date();
 
