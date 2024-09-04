@@ -10,7 +10,6 @@ const uploadedDate = Joi.date();
 const createPostSchema = Joi.object({
     id: id.required(),
     description: description.required(),
-    imageUrl: imageUrl.required(),
     uploadedDate: uploadedDate.required()
 })
 
