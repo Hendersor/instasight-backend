@@ -1,9 +1,17 @@
-class postsService{
-    async getAllPosts(){
-        
-    }
+class postsService {
+  constructor() {}
 
-    async createPost(){
+  async allPosts() {
+    return { data: "data" };
+  }
 
-    }
+  async createPost(data) {
+    return data;
+  }
+
+  async deletePost(id) {
+    return { data: id };
+  }
 }
+
+export { postsService };

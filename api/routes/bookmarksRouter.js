@@ -1,33 +1,42 @@
-import Express from 'express'
-import { bookmarksService } from '../services/bookmarksService.js'
-import { schemaValidator } from '../middlewares/schemaValidator.js'
-import { deleteBookmarkSchema, createBookmarkSchema } from '../schemas/bookmarksSchema.js'
+import Express from "express";
+import { bookmarksService } from "../services/bookmarksService.js";
+import { schemaValidator } from "../middlewares/schemaValidator.js";
+import {
+  deleteBookmarkSchema,
+  createBookmarkSchema,
+} from "../schemas/bookmarksSchema.js";
 
-const router = Express.Router()
+const router = Express.Router();
+const service = new bookmarksService();
 
-router.get('/', async(req, res) => {
-    const data = {bookmarks: "1"}
-    res.json(data)
-})
+router.get("/", async (req, res) => {
+  const response = await service.allBookmarks();
+  res.json(response);
+});
 
-router.delete('/:id', schemaValidator(deleteBookmarkSchema, params), async(req, res, next)=> {
-    try{
-      const service = new bookmarksService;
-      const {id} = req.params
-      const response  = await service.deleteBookmark(id)
-      res.json(response)
+router.delete(
+  "/:id",
+  schemaValidator(deleteBookmarkSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const response = await service.deleteBookmark(id);
+      res.json(response);
+    } catch (err) {
+      next(err);
     }
-    catch(err){
-       next(err)
-    }
+  }
+);
 
-})
+router.post(
+  "/",
+  schemaValidator(createBookmarkSchema, "body"),
+  async (req, res) => {
+    const bookmark = req.body;
+    const response = await service.createBookmark(bookmark);
 
-router.post("/", schemaValidator(createBookmarkSchema, body), async(req, res) => {
-    const body = req.body;
-    const newBookmark = body
-    res.json(newBookmark)
-})
+    res.json(response);
+  }
+);
 
-
-export {router}
+export { router };
