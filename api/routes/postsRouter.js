@@ -1,8 +1,8 @@
 import Express from "express";
-import { schemaValidator } from "../middlewares/schemaValidator";
-import { createPostSchema, deletePostSchema } from "../schemas/postsSchema";
-import { upload } from "../config/multerConfig";
-import { postsService } from "../services/postsService";
+import { schemaValidator } from "../middlewares/schemaValidator.js";
+import { createPostSchema, deletePostSchema } from "../schemas/postsSchema.js";
+import { upload } from "../config/multerConfig.js";
+import { postsService } from "../services/postsService.js";
 
 const router = Express.Router();
 const service = new postsService();
