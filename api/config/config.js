@@ -11,4 +11,4 @@ const config = {
     dbPort: process.env.DB_PORT || 5432,        
   };
   
-  module.exports = { config };
+module.exports = { config };
