@@ -9,6 +9,7 @@ lerna-debug.log*
 
 node_modules
 postgres_data
+pgadmin_data
 dist
 dist-ssr
 *.local
