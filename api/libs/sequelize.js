@@ -1,24 +1,34 @@
 import { Sequelize } from "sequelize";
 import { config } from "../config/config.js";
-// import { setupModels } from "../models/index.js";
+import { setupModels } from "../models/index.js";
 
-// const USER = encodeURIComponent(config.dbUser);
-// const PASSWORD = encodeURIComponent(config.dbPassword);
-// const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
+const USER = encodeURIComponent(config.dbUser);
+const PASSWORD = encodeURIComponent(config.dbPassword);
+const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
 
-const sequelize = new Sequelize(config.development.url, 
+const sequelize = new Sequelize(URI, 
     {
-      dialect: config.development.dialect,
-      logging: process.env.NODE_ENV === "development" ? console.log : false,
+      dialect: "postgres",
+      logging: URI === "development" ? console.log : false,
     })
 
-//setupModels(sequelize)  
+setupModels(sequelize)  
 
-sequelize.authenticate().then(() => {
+sequelize.authenticate().then(async() => {
     console.log("Connection done!");
+
+    try {
+      await sequelize.sync();
+      console.log("Tablas sincronizadas con éxito.");
+    } catch (error) {
+      console.error("Error al sincronizar las tablas:", error);
+    }
+
   })
+
+
+
   .catch((err) => {
-    console.log("Connection URI:", config.development.url);
     console.error("Connection failed!", err);
   });
 
