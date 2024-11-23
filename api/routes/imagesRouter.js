@@ -1,11 +1,11 @@
 import Express from "express";
 import { schemaValidator } from "../middlewares/schemaValidator.js";
-import { createPostSchema, deletePostSchema } from "../schemas/postsSchema.js";
+import { createPostSchema, deletePostSchema } from "../schemas/imagesSchema.js";
 import { upload } from "../config/multerConfig.js";
-import { postsService } from "../services/postsService.js";
+import { imageService } from "../services/imageService.js";
 
 const router = Express.Router();
-const service = new postsService();
+const service = new imageService();
 
 router.get("/", async (req, res) => {
   const data = await service.allPosts();
