@@ -10,10 +10,12 @@ class imageService {
   }
 
   async createPost(data) {
+    console.log(data)
     return await this.models.create(data);
   }
 
   async deletePost(id) {
+    console.log(id)
     return await this.models.destroy({where: {id}});
   }
 }

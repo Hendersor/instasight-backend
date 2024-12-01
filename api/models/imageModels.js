@@ -12,12 +12,9 @@ const ImageModel = {
     },
     img: {
         allowNull: false,
-        type: DataTypes.STRING,
-        validate:{
-            isUrl: true,
-            notEmpty: true,
-        },
+        type: DataTypes.BLOB('long'),
     },
+      
 
     user_id:{
         allowNull: false,
