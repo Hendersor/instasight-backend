@@ -1,27 +1,20 @@
-import Boom from "@hapi/boom";
+import { sequelize } from "../libs/sequelize.js";
 
 class bookmarksService {
-  constructor() {}
+  constructor() {
+    this.models = sequelize.models.Bookmark
+  }
 
   async deleteBookmark(id) {
-    const allData = {
-      id: 24,
-      user: "Hendersor",
-    };
-
-    if (id === "24") {
-      return allData;
-    } else {
-      throw Boom.notFound("Bookmark not found!");
-    }
+    return await this.models.destroy({where: {id}});
   }
 
   async createBookmark(data) {
-    return { data: data };
+    return await this.models.create(data)
   }
 
   async allBookmarks() {
-    return { data: "All bookmarks" };
+    return await this.models.findAll();
   }
 }
 

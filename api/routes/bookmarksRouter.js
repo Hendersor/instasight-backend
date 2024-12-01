@@ -32,7 +32,7 @@ router.post(
   "/",
   schemaValidator(createBookmarkSchema, "body"),
   async (req, res) => {
-    const bookmark = req.body;
+    const bookmark = req.body; 
     const response = await service.createBookmark(bookmark);
 
     res.json(response);
