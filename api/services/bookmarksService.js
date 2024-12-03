@@ -10,6 +10,19 @@ class bookmarksService {
   }
 
   async createBookmark(data) {
+    const {user_id, image_id} = data;
+
+    const user = await sequelize.models.User.findByPk(user_id)
+    if(!user){
+      throw new Error("Invalid user ID: User does not exist!");
+    }
+
+    const image = await sequelize.models.Image.findByPk(image_id)
+    if(!image){
+      throw new Error("Invalid image ID: image does not exist!");
+    }
+
+
     return await this.models.create(data)
   }
 
