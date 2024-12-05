@@ -9,9 +9,14 @@ import {
 const router = Express.Router();
 const service = new bookmarksService();
 
-router.get("/", async (req, res) => {
-  const response = await service.allBookmarks();
-  res.json(response);
+router.get("/", async (req, res, next) => {
+  try{
+    const response = await service.allBookmarks();
+    res.json(response);
+  }catch(error){
+    next(error)
+  }
+
 });
 
 router.delete(
@@ -31,11 +36,16 @@ router.delete(
 router.post(
   "/",
   schemaValidator(createBookmarkSchema, "body"),
-  async (req, res) => {
-    const bookmark = req.body; 
-    const response = await service.createBookmark(bookmark);
+  async (req, res, next) => {
+    try{
+      const bookmark = req.body; 
+      const response = await service.createBookmark(bookmark);
+  
+      res.json(response);
+    }catch(error){
+      next(error)
+    }
 
-    res.json(response);
   }
 );
 

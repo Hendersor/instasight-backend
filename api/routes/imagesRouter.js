@@ -8,9 +8,13 @@ import { imageService } from "../services/imageService.js";
 const router = Express.Router();
 const service = new imageService();
 
-router.get("/", async (req, res) => {
-  const data = await service.allPosts();
-  res.json(data);
+router.get("/", async (req, res, next) => {
+  try{
+    const data = await service.allPosts();
+    res.json(data);
+  }catch(error){
+      next(error)
+  }
 });
 
 router.post(

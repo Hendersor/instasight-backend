@@ -51,11 +51,6 @@ class Bookmark extends Model {
             as: "image",
             foreignKey: "image_id",
         });
-
-        this.hasMany(models.Comment, {
-            as: "comments",
-            foreignKey: "bookmark_id",
-        });
     }
 
     static config(sequelize) {

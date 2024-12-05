@@ -32,10 +32,15 @@ router.get("/:id", schemaValidator(findUserSchema, "params"), async(req, res, ne
 })
 
 
-router.post("/", schemaValidator(createUserSchema, "body"), async(req, res) => {
-    const body = req.body;
-    const user = await service.createUser(body);
-    res.json(user)
+router.post("/", schemaValidator(createUserSchema, "body"), async(req, res, next) => {
+    try{
+        const body = req.body;
+        const user = await service.createUser(body);
+        res.json(user)
+    }catch(error){
+        next(error)
+    }
+
 })
 
 
