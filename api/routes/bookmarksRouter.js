@@ -1,22 +1,21 @@
-import Express from "express";
-import { bookmarksService } from "../services/bookmarksService.js";
-import { schemaValidator } from "../middlewares/schemaValidator.js";
-import {
+const Express = require("express");
+const { bookmarksService } = require("../services/bookmarksService");
+const { schemaValidator } = require("../middlewares/schemaValidator");
+const {
   deleteBookmarkSchema,
   createBookmarkSchema,
-} from "../schemas/bookmarksSchema.js";
+} = require("../schemas/bookmarksSchema");
 
 const router = Express.Router();
 const service = new bookmarksService();
 
 router.get("/", async (req, res, next) => {
-  try{
+  try {
     const response = await service.allBookmarks();
     res.json(response);
-  }catch(error){
-    next(error)
+  } catch (error) {
+    next(error);
   }
-
 });
 
 router.delete(
@@ -37,16 +36,15 @@ router.post(
   "/",
   schemaValidator(createBookmarkSchema, "body"),
   async (req, res, next) => {
-    try{
-      const bookmark = req.body; 
+    try {
+      const bookmark = req.body;
       const response = await service.createBookmark(bookmark);
-  
-      res.json(response);
-    }catch(error){
-      next(error)
-    }
 
+      res.json(response);
+    } catch (error) {
+      next(error);
+    }
   }
 );
 
-export { router };
+module.exports = { router };

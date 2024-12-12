@@ -1,4 +1,4 @@
-import {sequelize} from "../libs/sequelize.js"
+const {sequelize} =  require("../libs/sequelize.js")
 
 class imageService {
   constructor() {
@@ -18,4 +18,4 @@ class imageService {
   }
 }
 
-export { imageService };
+module.exports = { imageService };
