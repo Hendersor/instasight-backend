@@ -1,19 +1,19 @@
-import Express from "express";
-import { v4 as uuidv4 } from 'uuid';
-import { schemaValidator } from "../middlewares/schemaValidator.js";
-import { createPostSchema, deletePostSchema } from "../schemas/imagesSchema.js";
-import { upload } from "../config/multerConfig.js";
-import { imageService } from "../services/imageService.js";
+const express = require("express");
+const { v4: uuidv4 } = require('uuid');
+const { schemaValidator } = require("../middlewares/schemaValidator");
+const { createPostSchema, deletePostSchema } = require("../schemas/imagesSchema");
+const { upload } = require("../config/multerConfig");
+const { imageService } = require("../services/imageService");
 
-const router = Express.Router();
+const router = express.Router();
 const service = new imageService();
 
 router.get("/", async (req, res, next) => {
-  try{
+  try {
     const data = await service.allPosts();
     res.json(data);
-  }catch(error){
-      next(error)
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -23,7 +23,7 @@ router.post(
   schemaValidator(createPostSchema, 'body'),
   async (req, res, next) => {
     try {
-      const {description} = req.body
+      const { description } = req.body;
       const file = req.file;
       if (!file) {
         return res.status(400).json({ message: "No image uploaded" });
@@ -33,8 +33,8 @@ router.post(
 
       const post = {
         id: uuidv4(),
-        img: imageBuffer, 
-        user_id: "3af711bb-4a89-4281-bdf7-56030c992b98",  
+        img: imageBuffer,
+        user_id: "3af711bb-4a89-4281-bdf7-56030c992b98",
         description,
         created_at: new Date(),
       };
@@ -57,11 +57,11 @@ router.delete(
       await service.deletePost(postId);
       res
         .status(200)
-        .json({ message: "Post deleted successfully"});
+        .json({ message: "Post deleted successfully" });
     } catch (error) {
       next(error);
     }
   }
 );
 
-export { router };
+module.exports = { router };

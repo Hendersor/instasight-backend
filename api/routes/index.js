@@ -1,16 +1,16 @@
-import  Express from "express";
-import {router as imagesRouter} from "./imagesRouter.js"
-import {router as bookmarksRouter} from "./bookmarksRouter.js"
-import {router as usersRouter} from "./usersRouter.js"
-import { router as commentsRouter } from "./commentsRouter.js";
+const express = require("express");
+const { router: imagesRouter } = require("./imagesRouter");
+const { router: bookmarksRouter } = require("./bookmarksRouter");
+const { router: usersRouter } = require("./usersRouter");
+const { router: commentsRouter } = require("./commentsRouter");
 
-function routerApi(app){
-    const router = Express.Router()
-    app.use("/api/v1", router)
-    router.use("/images", imagesRouter)
-    router.use("/bookmarks", bookmarksRouter)
-    router.use("/users", usersRouter)
-    router.use("/comments",commentsRouter)
+function routerApi(app) {
+  const router = express.Router();
+  app.use("/api/v1", router);
+  router.use("/images", imagesRouter);
+  router.use("/bookmarks", bookmarksRouter);
+  router.use("/users", usersRouter);
+  router.use("/comments", commentsRouter);
 }
 
-export {routerApi}
+module.exports = { routerApi };

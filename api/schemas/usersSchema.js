@@ -1,4 +1,4 @@
-import Joi from "joi"
+const Joi = require("joi");
 
 const id = Joi.string().guid({ version: "uuidv4" });
 const userName = Joi.string().alphanum();
@@ -23,4 +23,4 @@ const editUserSchema = Joi.object({
   password: password,
 });
 
-export { createUserSchema, findUserSchema, editUserSchema };
+module.exports = { createUserSchema, findUserSchema, editUserSchema };

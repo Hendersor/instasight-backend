@@ -1,4 +1,4 @@
-import Joi from 'joi'
+const Joi = require('joi')
 
 
 const id = Joi.string().guid({version:"uuidv4"})
@@ -14,4 +14,4 @@ const deletePostSchema = Joi.object({
     id: id.required()
 })
 
-export {createPostSchema, deletePostSchema}
+module.exports = {createPostSchema, deletePostSchema}

@@ -1,6 +1,6 @@
-import { Sequelize } from "sequelize";
-import { config } from "../config/config.js";
-import { setupModels } from "../models/index.js";
+const { Sequelize } = require("sequelize");
+const { config } = require("../config/config.js");
+const { setupModels } = require("../db/models/index.js");
 
 const USER = encodeURIComponent(config.dbUser);
 const PASSWORD = encodeURIComponent(config.dbPassword);
@@ -10,26 +10,20 @@ const sequelize = new Sequelize(URI,
     {
       dialect: "postgres",
       logging: URI === "development" ? console.log : false,
-    })
+    });
 
-setupModels(sequelize)  
+setupModels(sequelize);  
 
-sequelize.authenticate().then(async() => {
+sequelize
+  .authenticate()
+  .then(async () => {
     console.log("Connection done!");
 
-    try {
-      await sequelize.sync();
-      console.log("Tablas sincronizadas con éxito.");
-    } catch (error) {
-      console.error("Error al sincronizar las tablas:", error);
-    }
-
+    await sequelize.sync({ force: false }); 
+    console.log("Database synchronized!");
   })
-
-
-
   .catch((err) => {
     console.error("Connection failed!", err);
   });
 
-export { sequelize };
+module.exports = { sequelize };

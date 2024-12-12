@@ -1,8 +1,17 @@
-const path = require('path');
+const path = require("path");
 
-module.exports = {
-    'config': path.resolve('api/config', 'config.json'),
-    'models-path': path.resolve('api/models'),
-    'migrations-path': path.resolve('api/migrations'),
-    'seeders-path': path.resolve('api/migrations'),
-}
+module.exports = async () => {
+  const { config } = await import(path.resolve(__dirname, "api/db/config.js"));
+
+  const result = {
+    config: path.resolve(__dirname, "api/db/config.js"),
+    modelsPath: path.resolve(__dirname, "api/db/models"),
+    migrationsPath: path.resolve(__dirname, "api/db/migrations"),
+    seedersPath: path.resolve(__dirname, "api/db/seeders"),
+
+    url: config.development.url,
+  };
+
+  console.log(result)
+  return result
+};
