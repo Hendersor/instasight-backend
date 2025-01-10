@@ -22,6 +22,9 @@ app.get('/api', (req, res) => {
     }
 })();
 
+require("./utils/auth/");
+
+
 routerApi(app);
 app.use(boomErrorHandler);
 app.use(errorHandler);

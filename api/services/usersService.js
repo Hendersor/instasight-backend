@@ -15,6 +15,11 @@ class userService {
     return await find(this.models, id);
   }
 
+  async findByEmail(email) {
+    const rta = await findEmail(this.models, email);
+    return rta
+  }  
+
   async createUser(data) {
     const hash = await bcrypt.hash(data.password, 10);
     const newUser = await this.models.create({ ...data, password: hash });
@@ -31,4 +36,4 @@ class userService {
   }
 }
 
-module.exports = { userService };
+module.exports = {userService};
