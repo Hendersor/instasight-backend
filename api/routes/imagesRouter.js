@@ -1,4 +1,5 @@
 const express = require("express");
+const passport = require("passport");
 const { v4: uuidv4 } = require('uuid');
 const { schemaValidator } = require("../middlewares/schemaValidator");
 const { createPostSchema, deletePostSchema } = require("../schemas/imagesSchema");
@@ -19,6 +20,7 @@ router.get("/", async (req, res, next) => {
 
 router.post(
   "/",
+  passport.authenticate("jwt", { session: false }),
   upload.single("image"),
   schemaValidator(createPostSchema, 'body'),
   async (req, res, next) => {
@@ -34,7 +36,7 @@ router.post(
       const post = {
         id: uuidv4(),
         img: imageBuffer,
-        user_id: "3af711bb-4a89-4281-bdf7-56030c992b98",
+        user_id: "6684e519-23e0-4d78-b9e4-4e7037fbe7e5",
         description,
         created_at: new Date(),
       };
@@ -50,6 +52,7 @@ router.post(
 
 router.delete(
   "/:id",
+  passport.authenticate("jwt", { session: false }),
   schemaValidator(deletePostSchema, 'params'),
   async (req, res, next) => {
     try {

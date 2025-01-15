@@ -1,4 +1,5 @@
 const express = require("express");
+const passport = require("passport");
 const { schemaValidator } = require("../middlewares/schemaValidator");
 const { commentService } = require("../services/commentsService");
 const { createCommentSchema } = require("../schemas/commentsSchema");
@@ -15,7 +16,9 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/", schemaValidator(createCommentSchema, "body"), async (req, res, next) => {
+router.post("/", 
+  passport.authenticate("jwt", { session: false }),
+  schemaValidator(createCommentSchema, "body"), async (req, res, next) => {
   try {
     const body = req.body;
     const comment = await service.createComment(body);

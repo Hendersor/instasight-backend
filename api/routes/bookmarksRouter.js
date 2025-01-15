@@ -1,4 +1,5 @@
 const Express = require("express");
+const passport = require("passport");
 const { bookmarksService } = require("../services/bookmarksService");
 const { schemaValidator } = require("../middlewares/schemaValidator");
 const {
@@ -9,7 +10,9 @@ const {
 const router = Express.Router();
 const service = new bookmarksService();
 
-router.get("/", async (req, res, next) => {
+router.get("/", 
+  passport.authenticate("jwt", { session: false }),
+  async (req, res, next) => {
   try {
     const response = await service.allBookmarks();
     res.json(response);
@@ -20,6 +23,7 @@ router.get("/", async (req, res, next) => {
 
 router.delete(
   "/:id",
+  passport.authenticate("jwt", { session: false }),
   schemaValidator(deleteBookmarkSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -34,6 +38,7 @@ router.delete(
 
 router.post(
   "/",
+  passport.authenticate("jwt", { session: false }),
   schemaValidator(createBookmarkSchema, "body"),
   async (req, res, next) => {
     try {
