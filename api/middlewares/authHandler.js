@@ -10,5 +10,12 @@ function checkApiKey(req, res, next){
     }
 }
 
+function checkUserRoles(req, res, next){
+    const user = req.user;
+    if(user.role === 'admin'){
+        next()
+    }
+}
 
-module.exports = { checkApiKey }
+
+module.exports = { checkApiKey, checkUserRoles }
