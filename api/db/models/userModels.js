@@ -58,6 +58,11 @@ class User extends Model {
             as: "comment",
             foreignKey: "user_id",
         });
+
+        this.hasMany(models.Bookmark, {
+            as: "bookmark",
+            foreignKey: "user_id",
+        });
     }
 
     static config(sequelize) {
@@ -68,6 +73,8 @@ class User extends Model {
             timestamps: false,
         };
     }
+
+
 }
 
 module.exports = { User, UserModel, USER_TABLE };

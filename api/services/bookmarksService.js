@@ -25,6 +25,23 @@ class bookmarksService {
     return await this.models.create(data);
   }
 
+  async findByUser(userId) {
+    const bookmarks = await this.models.findAll({
+      where: {
+        user_id: userId, 
+      },
+      include: [
+        {
+          association: 'user', 
+        },
+        {
+          association: 'image', 
+        },
+      ],
+    });
+    return bookmarks; 
+  }
+
   async allBookmarks() {
     return await this.models.findAll();
   }

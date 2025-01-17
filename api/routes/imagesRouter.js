@@ -2,6 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const { v4: uuidv4 } = require('uuid');
 const { schemaValidator } = require("../middlewares/schemaValidator");
+const { checkUserRoles } = require("../middlewares/authHandler");
 const { createPostSchema, deletePostSchema } = require("../schemas/imagesSchema");
 const { upload } = require("../config/multerConfig");
 const { imageService } = require("../services/imageService");
@@ -21,6 +22,7 @@ router.get("/", async (req, res, next) => {
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
+  checkUserRoles,
   upload.single("image"),
   schemaValidator(createPostSchema, 'body'),
   async (req, res, next) => {
