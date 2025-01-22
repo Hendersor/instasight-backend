@@ -10,6 +10,7 @@ class bookmarksService {
   }
 
   async createBookmark(data) {
+    
     const { user_id, image_id } = data;
 
     const user = await sequelize.models.User.findByPk(user_id);
