@@ -22,7 +22,6 @@ router.get("/", async (req, res, next) => {
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
-  checkUserRoles,
   upload.single("image"),
   schemaValidator(createPostSchema, 'body'),
   async (req, res, next) => {
@@ -38,12 +37,13 @@ router.post(
       const post = {
         id: uuidv4(),
         img: imageBuffer,
-        user_id: "6684e519-23e0-4d78-b9e4-4e7037fbe7e5",
+        user_id: "bf914012-a3cb-4902-b731-6d9c9cb3a5ca",
         description,
         created_at: new Date(),
       };
-
+      console.log(post);
       const response = await service.createPost(post);
+      console.log(response);
       res.status(200).json(response);
     } catch (error) {
       console.error("Error during image upload:", error);

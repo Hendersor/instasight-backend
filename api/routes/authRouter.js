@@ -10,6 +10,7 @@ router.post("/login", passport.authenticate('local', {session: false}),
  async (req, res, next) => {
   try {
     const user = req.user;
+    console.log(user)
     res.json(service.signToken(user));
 
   } catch (error) {

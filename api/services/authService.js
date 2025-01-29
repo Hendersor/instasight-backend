@@ -9,11 +9,13 @@ const nodemailer = require('nodemailer')
 class AuthService{
     async getUser(email, password){
         const user = await service.findByEmail(email)
+
         if(!user){
             throw(boom.unauthorized(), false)
         }
-        
+
         const isMatch = await bcrypt.compare(password, user.password)
+
         if(!isMatch){
             throw(boom.unauthorized(), false)
         }
@@ -21,7 +23,7 @@ class AuthService{
         return user
     }
 
-    async  signToken(user){
+    signToken(user){
         const payload = {
             sub: user.id,
             role: user.role

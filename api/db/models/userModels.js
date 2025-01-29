@@ -40,6 +40,12 @@ const UserModel = {
         },
     },
 
+    role: { 
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "user",
+    },
+
     created_at: {
         allowNull: false,
         type: DataTypes.DATE,
