@@ -8,7 +8,6 @@ const createCommentSchema = Joi.object({
     .max(500)
     .required(),
     photo_id: id.uuid().required(),
-    user_id: id.uuid().optional(),
 })
 
 module.exports = {createCommentSchema}

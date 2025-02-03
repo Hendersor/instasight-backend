@@ -9,9 +9,11 @@ const { checkUserRoles } = require("../middlewares/authHandler");
 const router = express.Router();
 const service = new commentService();
 
-router.get("/", async (req, res, next) => {
+router.get("/comment-image", async (req, res, next) => {
   try {
-    const data = await service.allComments();
+    const { photo_id } = req.query;
+    console.log(photo_id)
+    // const data = await service.allComments();
     res.json(data);
   } catch (error) {
     next(error);
@@ -23,8 +25,16 @@ router.post("/",
   checkUserRoles,
   schemaValidator(createCommentSchema, "body"), async (req, res, next) => {
   try {
-    const body = req.body;
-    const comment = await service.createComment(body);
+    const {content, photo_id} = req.body;
+    const user_id = req.user.sub;
+    const newComment = {
+      content,
+      photo_id,
+      user_id,
+      created_at: new Date(),
+    }
+    const comment = await service.createComment(newComment);
+    
     res.json(comment);
   } catch (error) {
     next(error);

@@ -3,7 +3,7 @@ const passport = require("passport");
 const { v4: uuidv4 } = require('uuid');
 const { schemaValidator } = require("../middlewares/schemaValidator");
 const { checkUserRoles } = require("../middlewares/authHandler");
-const { createPostSchema, deletePostSchema } = require("../schemas/imagesSchema");
+const { createPostSchema } = require("../schemas/imagesSchema");
 const { upload } = require("../config/multerConfig");
 const { imageService } = require("../services/imageService");
 
@@ -18,6 +18,18 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
+
+router.get("/user-posts",passport.authenticate("jwt", {session: false}),
+ async (req, res, next) => {
+  try{
+    const userId = req.user.sub;
+    const data = await service.getPostByUserId(userId);
+    res.json(data);
+
+  }catch(error){
+    next(error)
+  }
+})
 
 router.post(
   "/",
@@ -34,17 +46,15 @@ router.post(
       }
 
       const imageBuffer = file.buffer;
-
       const post = {
         id: uuidv4(),
         img: imageBuffer,
-        user_id: "bf914012-a3cb-4902-b731-6d9c9cb3a5ca",
+        user_id: req.user.sub,
         description,
         created_at: new Date(),
       };
-      console.log(post);
       const response = await service.createPost(post);
-      console.log(response);
+
       res.status(200).json(response);
     } catch (error) {
       console.error("Error during image upload:", error);
@@ -56,10 +66,18 @@ router.post(
 router.delete(
   "/:id",
   passport.authenticate("jwt", { session: false }),
-  schemaValidator(deletePostSchema, 'params'),
   async (req, res, next) => {
     try {
       const postId = req.params.id;
+      const userId = req.user.sub;
+
+      const post = await service.getPost(postId);
+      const postUserId = post.dataValues.user_id;
+      if(!post || postUserId !== userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+
       await service.deletePost(postId);
       res
         .status(200)

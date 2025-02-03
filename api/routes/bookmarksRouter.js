@@ -24,6 +24,18 @@ router.get("/",
   }
 });
 
+router.get("/my-bookmarks", passport.authenticate('jwt', {session: false}),
+ async (req, res, next) => {
+  try {
+    const user = req.user;
+    const bookmarks = await service.findByUser(user.sub);
+    res.json(bookmarks)
+
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.delete(
   "/:id",
   passport.authenticate("jwt", { session: false }),

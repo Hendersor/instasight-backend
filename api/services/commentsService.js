@@ -5,9 +5,9 @@ class commentService{
         this.models = sequelize.models.Comment
     }
 
-    async allComments(){
+    async commentsByImage(photo_id){
         try{
-            return await this.models.findAll();
+            return await this.models.findAll({where: {photo_id: photo_id}});
         }catch(error){
             console.log(error)
         }

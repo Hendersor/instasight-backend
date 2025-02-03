@@ -12,9 +12,6 @@ const createUserSchema = Joi.object({
 });
 
 
-const findUserSchema = Joi.object({
-  id: id.required(),
-});
 
 const editUserSchema = Joi.object({
   id: id,
@@ -23,4 +20,4 @@ const editUserSchema = Joi.object({
   password: password,
 });
 
-module.exports = { createUserSchema, findUserSchema, editUserSchema };
+module.exports = { createUserSchema, editUserSchema };
