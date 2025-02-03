@@ -3,6 +3,8 @@ const passport = require("passport");
 const { schemaValidator } = require("../middlewares/schemaValidator");
 const { commentService } = require("../services/commentsService");
 const { createCommentSchema } = require("../schemas/commentsSchema");
+const { checkUserRoles } = require("../middlewares/authHandler");
+
 
 const router = express.Router();
 const service = new commentService();
@@ -18,6 +20,7 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", 
   passport.authenticate("jwt", { session: false }),
+  checkUserRoles,
   schemaValidator(createCommentSchema, "body"), async (req, res, next) => {
   try {
     const body = req.body;

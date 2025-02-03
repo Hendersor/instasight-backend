@@ -6,12 +6,15 @@ const {
   deleteBookmarkSchema,
   createBookmarkSchema,
 } = require("../schemas/bookmarksSchema");
+const { checkUserRoles } = require("../middlewares/authHandler");
+
 
 const router = Express.Router();
 const service = new bookmarksService();
 
 router.get("/", 
   passport.authenticate("jwt", { session: false }),
+  checkUserRoles,
   async (req, res, next) => {
   try {
     const response = await service.allBookmarks();
@@ -24,6 +27,7 @@ router.get("/",
 router.delete(
   "/:id",
   passport.authenticate("jwt", { session: false }),
+  checkUserRoles,
   schemaValidator(deleteBookmarkSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -39,6 +43,7 @@ router.delete(
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
+  checkUserRoles,
   schemaValidator(createBookmarkSchema, "body"),
   async (req, res, next) => {
     try {

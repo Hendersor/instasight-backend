@@ -40,7 +40,8 @@ class AuthService{
 
         const payload = {sub: user.id,}
         const token = jwt.sign(payload, config.jwtSecret, {expiresIn: "15m"}) 
-        const link = `http://localhost:3000/recovery/${token}`
+        const link = `http://localhost:3000/recovery?token=${token}`
+        await service.updateUser(user.id, {recoveryToken: token})
         const mail = {
             from: config.smtp_email,
             to: `${user.email}`,
@@ -49,6 +50,25 @@ class AuthService{
         }
        const rta = await this.sendMail(mail)
         return rta;
+    }
+
+    async changePassword(token, newPassword){
+        try{
+            const payload = jwt.verify(token, config.jwtSecret)
+
+            const user = await service.findUser(payload.sub)
+
+            console.log(user.dataValues.recoveryToken)
+            if(user.dataValues.recoveryToken !== token){
+                throw boom.unauthorized()
+            }
+            const hash = await bcrypt.hash(newPassword, 10)
+            await service.updateUser(user.id, {password: hash, recoveryToken: null})
+            return {message: "Password changed"}
+
+        }catch(error){
+            throw boom.unauthorized()
+        }
     }
 
     async sendMail(infoMail){

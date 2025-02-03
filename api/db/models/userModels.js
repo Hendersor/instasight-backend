@@ -40,6 +40,12 @@ const UserModel = {
         },
     },
 
+    recoveryToken:{
+        field: "recovery_token",
+        allowNull: true,
+        type: DataTypes.STRING,
+    },
+
     role: { 
         type: DataTypes.STRING,
         allowNull: false,

@@ -22,6 +22,7 @@ router.get("/", async (req, res, next) => {
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
+  checkUserRoles,
   upload.single("image"),
   schemaValidator(createPostSchema, 'body'),
   async (req, res, next) => {
