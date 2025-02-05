@@ -12,8 +12,7 @@ const service = new commentService();
 router.get("/comment-image", async (req, res, next) => {
   try {
     const { photo_id } = req.query;
-    console.log(photo_id)
-    // const data = await service.allComments();
+    const data = await service.commentsByImage(photo_id);
     res.json(data);
   } catch (error) {
     next(error);
