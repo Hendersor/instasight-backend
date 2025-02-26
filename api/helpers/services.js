@@ -20,7 +20,7 @@ async function findEmail(model, email) {
 
 async function update(model, id, body) {
     const recordToUpdate = await model.findByPk(id);
-    if (recordToUpdate === -1) {
+    if (!recordToUpdate) {
         throw boom.notFound("Not found");
     }
     const rta = await recordToUpdate.update(body);

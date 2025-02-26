@@ -2,6 +2,7 @@ const { sequelize } = require("../libs/sequelize.js");
 const { add, find, update, delet, findEmail } = require("../helpers/services.js");
 const bcrypt = require("bcrypt");
 
+
 class userService {
   constructor() {
     this.models = sequelize.models.User;

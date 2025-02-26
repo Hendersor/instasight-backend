@@ -63,6 +63,25 @@ router.post(
   }
 );
 
+router.post("/:imageId/like", passport.authenticate("jwt", { session: false }), async (req, res, next) => {
+  try{
+    const userId = req.user.sub;
+    const imageId = req.params.imageId;
+
+    console.log(userId, imageId);
+    // const existingLike = await Like.findOne({where: {user_id: userId, image_id: imageId}});
+    // if(existingLike){
+    //   await existingLike.destroy();
+    //   return res.json({message: "Like removed"});
+    // }else{
+    //   await Like.create({user_id: userId, image_id: imageId});
+    //   return res.json({liked: true});
+    // }
+  }catch(error){
+    next(error);
+  }
+});
+
 router.delete(
   "/:id",
   passport.authenticate("jwt", { session: false }),

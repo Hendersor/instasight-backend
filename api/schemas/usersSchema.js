@@ -1,6 +1,5 @@
 const Joi = require("joi");
 
-const id = Joi.string().guid({ version: "uuidv4" });
 const userName = Joi.string().alphanum();
 const email = Joi.string().email();
 const password = Joi.string().alphanum();
@@ -13,11 +12,9 @@ const createUserSchema = Joi.object({
 
 
 
-const editUserSchema = Joi.object({
-  id: id,
-  email: email,
-  username: userName,
-  password: password,
+const updateUserSchema = Joi.object({
+  profile_picture: Joi.binary().allow(null),
+  bio: Joi.string().allow(null),
 });
 
-module.exports = { createUserSchema, editUserSchema };
+module.exports = { createUserSchema, updateUserSchema };

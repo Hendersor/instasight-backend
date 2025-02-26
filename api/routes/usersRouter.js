@@ -3,9 +3,12 @@ const { schemaValidator } = require("../middlewares/schemaValidator");
 const {
   createUserSchema,
   findUserSchema,
-  editUserSchema,
+  updateUserSchema,
 } = require("../schemas/usersSchema");
 const { userService } = require("../services/usersService");
+const {upload} = require("../config/multerConfig");
+const passport = require("passport");
+
 
 const router = express.Router();
 const service = new userService();
@@ -39,11 +42,22 @@ router.post("/", schemaValidator(createUserSchema, "body"), async (req, res, nex
   }
 });
 
-router.patch("/:id", schemaValidator(findUserSchema, "params"), schemaValidator(editUserSchema, "body"), async (req, res, next) => {
+router.patch("/edit-user",
+    passport.authenticate("jwt", { session: false }),
+    upload.single("image"),
+    schemaValidator(updateUserSchema, "body"), async (req, res, next) => {
   try {
-    const body = req.body;
-    const { id } = req.params;
-    const user = await service.updateUser(id, body);
+    console.log(req.file)
+    const {bio} = req.body;
+    const profile_picture = req.file ? req.file.buffer : null;
+
+    const userId  = req.user.sub;
+    const updatedData = {
+      bio: bio,
+      profile_picture: profile_picture,
+    };
+
+    const user = await service.updateUser(userId, updatedData);
     res.json(user);
   } catch (error) {
     next(error);

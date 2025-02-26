@@ -57,6 +57,16 @@ const UserModel = {
         type: DataTypes.DATE,
         defaultValue: Sequelize.NOW,
     },
+
+    bio: {
+        allowNull: true,
+        type: DataTypes.STRING,
+    },
+
+    profile_picture: {
+        allowNull: true,
+        type: DataTypes.BLOB,
+    },
 };
 
 class User extends Model {
