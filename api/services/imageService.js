@@ -24,6 +24,7 @@ class imageService {
   async getPostByUserId(user_id) {
     return await this.models.findAll({where: {user_id}});
   }
+
 }
 
 module.exports = { imageService };

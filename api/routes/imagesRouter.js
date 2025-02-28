@@ -6,9 +6,11 @@ const { checkUserRoles } = require("../middlewares/authHandler");
 const { createPostSchema } = require("../schemas/imagesSchema");
 const { upload } = require("../config/multerConfig");
 const { imageService } = require("../services/imageService");
+const { LikeService } = require("../services/likeService");
 
 const router = express.Router();
 const service = new imageService();
+const likeService = new LikeService();
 
 router.get("/", async (req, res, next) => {
   try {
@@ -68,15 +70,12 @@ router.post("/:imageId/like", passport.authenticate("jwt", { session: false }), 
     const userId = req.user.sub;
     const imageId = req.params.imageId;
 
-    console.log(userId, imageId);
-    // const existingLike = await Like.findOne({where: {user_id: userId, image_id: imageId}});
-    // if(existingLike){
-    //   await existingLike.destroy();
-    //   return res.json({message: "Like removed"});
-    // }else{
-    //   await Like.create({user_id: userId, image_id: imageId});
-    //   return res.json({liked: true});
-    // }
+    const response = await likeService.toggleLike(imageId, userId);
+    if(!response){
+      return res.status(400).json({message: "Like removed"});
+    }
+    res.json({message: "Like added"});
+
   }catch(error){
     next(error);
   }
