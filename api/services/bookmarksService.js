@@ -1,4 +1,5 @@
 const { sequelize } = require("../libs/sequelize.js");
+const {add, find, delet} = require('../helpers/services.js');
 
 class bookmarksService {
   constructor() {
@@ -6,19 +7,18 @@ class bookmarksService {
   }
 
   async deleteBookmark(id) {
-    return await this.models.destroy({ where: { id } });
+    return await delet(this.models, id);
   }
 
   async createBookmark(data) {
     
     const { image_id } = data;
-
-    const image = await sequelize.models.Image.findByPk(image_id);
+    const image = await find(sequelize.models.Image, image_id);
     if (!image) {
       throw new Error("Invalid image ID: image does not exist!");
     }
 
-    return await this.models.create(data);
+    return await add(this.models, data);
   }
 
   async findByUser(userId) {

@@ -1,4 +1,5 @@
 const {sequelize} =  require("../libs/sequelize.js")
+const {add, find, update, delet, findEmail} = require("../helpers/services.js");
 
 class imageService {
   constructor() {
@@ -10,15 +11,15 @@ class imageService {
   }
 
   async createPost(data) {
-    return await this.models.create(data);
+    return await add(this.models, data);
   }
 
   async deletePost(id) {
-    return await this.models.destroy({where: {id}});
+    return await delet(this.models, id);
   }
 
   async getPost(id) {
-    return await this.models.findOne({where: {id}});
+    return await find(this.models, id);
   }
 
   async getPostByUserId(user_id) {

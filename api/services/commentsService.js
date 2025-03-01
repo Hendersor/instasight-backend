@@ -1,4 +1,5 @@
 const { sequelize } = require("../libs/sequelize.js");
+const {add} = require('../helpers/services.js')
 
 class commentService{
     constructor(){
@@ -20,7 +21,7 @@ class commentService{
     }
 
     async createComment(data){
-        return await this.models.create(data)
+        return await add(this.models, data);
     }    
 }
 
