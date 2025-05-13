@@ -42,12 +42,45 @@ router.post("/", schemaValidator(createUserSchema, "body"), async (req, res, nex
   }
 });
 
+router.post("/:userId/follow", passport.authenticate("jwt", { session: false }), async (req, res, next) => {
+  try{
+    const followerId = req.user.sub;
+    const followingId = req.params.userId;
+
+    const result = await service.followUser(followerId, followingId);
+    res.json(result);
+  }
+  catch (error) {
+    next(error);
+  }
+})
+
+router.get("/:userId/followers", async (req, res, next) => {
+  try{
+    const userId = req.params.userId;
+    const followers = await service.getFollowers(userId);
+    res.json(followers);
+  }catch(error){
+    next(error);
+  }
+});
+
+router.get("/:userId/following", async (req, res, next) => {
+  try{
+    const userId = req.params.userId;
+    const following = await service.getFollowing(userId);
+    res.json(following);
+  }catch(error){
+    next(error);
+  }
+})
+
+
 router.patch("/edit-user",
     passport.authenticate("jwt", { session: false }),
     upload.single("image"),
     schemaValidator(updateUserSchema, "body"), async (req, res, next) => {
   try {
-    console.log(req.file)
     const {bio} = req.body;
     const profile_picture = req.file ? req.file.buffer : null;
 
