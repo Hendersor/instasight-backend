@@ -35,40 +35,6 @@ class userService {
   async deleteUser(id) {
     return await delet(this.models, id);
   }
-
-
-  async followUser(followerId, followingId) {
-    const Follow = sequelize.models.Follow;
-    const follow = await Follow.create({ followerId, followingId });
-    return follow;
-  }
-
-  async getFollowers(userId){
-    const followers = await this.models.findAll({
-      where: {followingId: userId},
-      include: [
-        {
-          model: this.models,
-          as: 'follower',
-          attributes: ['id', 'name']
-        }
-      ]})
-    return followers.map(follower => follower.follower);
-  }
-
-  async getFollowing(userId){
-    const following = await this.models.findAll({
-      where: {followerId: userId},
-      include:[
-        {
-          model: this.models,
-          as: 'following',
-          attributes: ['id', 'name']
-        }
-      ]
-    })
-    return following.map(follow => follow.following);
-  }
 }
 
 module.exports = {userService};

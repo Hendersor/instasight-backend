@@ -6,12 +6,15 @@ const {
   updateUserSchema,
 } = require("../schemas/usersSchema");
 const { userService } = require("../services/usersService");
+const { FollowUserService } = require("../services/followService");
+
 const {upload} = require("../config/multerConfig");
 const passport = require("passport");
 
 
 const router = express.Router();
 const service = new userService();
+const followService = new FollowUserService();
 
 router.get("/", async (req, res, next) => {
   try {
@@ -47,7 +50,7 @@ router.post("/:userId/follow", passport.authenticate("jwt", { session: false }),
     const followerId = req.user.sub;
     const followingId = req.params.userId;
 
-    const result = await service.followUser(followerId, followingId);
+    const result = await followService.followUser(followerId, followingId);
     res.json(result);
   }
   catch (error) {
@@ -58,7 +61,7 @@ router.post("/:userId/follow", passport.authenticate("jwt", { session: false }),
 router.get("/:userId/followers", async (req, res, next) => {
   try{
     const userId = req.params.userId;
-    const followers = await service.getFollowers(userId);
+    const followers = await followService.getFollowers(userId);
     res.json(followers);
   }catch(error){
     next(error);
@@ -68,7 +71,7 @@ router.get("/:userId/followers", async (req, res, next) => {
 router.get("/:userId/following", async (req, res, next) => {
   try{
     const userId = req.params.userId;
-    const following = await service.getFollowing(userId);
+    const following = await followService.getFollowing(userId);
     res.json(following);
   }catch(error){
     next(error);
