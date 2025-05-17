@@ -11,7 +11,6 @@ const { FollowUserService } = require("../services/followService");
 const {upload} = require("../config/multerConfig");
 const passport = require("passport");
 
-
 const router = express.Router();
 const service = new userService();
 const followService = new FollowUserService();
