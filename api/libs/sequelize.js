@@ -5,7 +5,7 @@ const { setupModels } = require("../db/models/index.js");
 const USER = encodeURIComponent(config.dbUser);
 const PASSWORD = encodeURIComponent(config.dbPassword);
 // const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
-const URI = config.env
+const URI = config.env.db
 
 const sequelize = new Sequelize(URI, 
     {
