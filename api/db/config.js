@@ -1,8 +1,8 @@
 const { config } = require('../config/config.js'); 
 
 // const uri = process.env.URI;
-const dbTest = process.env.DATABASE_URL_DEV;
-const db = process.env.DATABASE_URL;
+const dbTest = config.dbTest;
+const db = config.db;
 
 module.exports = {
   "development": {

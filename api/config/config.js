@@ -13,7 +13,9 @@ const config = {
     jwtSecret: process.env.JWT_SECRET,
     smtp_email: process.env.SMTP_EMAIL,
     smpt_emailPass: process.env.SMTP_PASSWORD,
-    uri: process.env.URI,
+    // uri: process.env.URI,
+    dbTest: process.env.DATABASE_URL_DEV,
+    db: process.env.DATABASE_URL,
 };
 
 module.exports = { config };
