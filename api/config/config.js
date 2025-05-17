@@ -13,6 +13,7 @@ const config = {
     jwtSecret: process.env.JWT_SECRET,
     smtp_email: process.env.SMTP_EMAIL,
     smpt_emailPass: process.env.SMTP_PASSWORD,
+    uri: process.env.URI,
 };
 
 module.exports = { config };

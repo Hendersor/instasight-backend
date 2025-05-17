@@ -1,16 +1,16 @@
 const { config } = require('../config/config.js'); 
 
-const USER = encodeURIComponent(config.dbUser);
-const PASSWORD = encodeURIComponent(config.dbPassword);
-const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
+// const uri = process.env.URI;
+const dbTest = process.env.DATABASE_URL_DEV;
+const db = process.env.DATABASE_URL;
 
 module.exports = {
   "development": {
-    "url": URI,
+    "url": dbTest,
     "dialect": "postgres",
   },
   "production": {
-    "url": URI,
+    "url": db,
     "dialect": "postgres",
   }
 };
