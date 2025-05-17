@@ -1,21 +1,20 @@
 const { config } = require('../config/config.js'); 
 
-const dbTest = config.dbTest;
-const db = config.db;
 
 module.exports = {
   "development": {
-    "url": dbTest,
+    "url": config.dbTest,
     "dialect": "postgres",
-      "dialectOptions": {
+    "dialectOptions": {
       "ssl": {
         "require": true,
         "rejectUnauthorized": false
       }
     }
   },
+
   "production": {
-    "url": db,
+    "url": config.db,
     "dialect": "postgres",
     "dialectOptions": {
       "ssl": {
