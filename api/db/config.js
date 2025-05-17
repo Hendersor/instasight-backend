@@ -7,9 +7,16 @@ module.exports = {
   "development": {
     "url": dbTest,
     "dialect": "postgres",
+    
   },
   "production": {
     "url": db,
     "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 };
