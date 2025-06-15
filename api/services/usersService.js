@@ -1,6 +1,7 @@
 const { sequelize } = require("../libs/sequelize.js");
 const {add, find, update, delet, findEmail } = require("../helpers/services.js");
 const bcrypt = require("bcrypt");
+const cloudinary = require('cloudinary')
 
 
 class userService {
@@ -28,8 +29,30 @@ class userService {
     return newUser
   }
 
-  async updateUser(id, body) {
-    return await update(this.models, id, body);
+
+  async updateUser(id, { bio, file }) {
+        const updateData = {};
+
+    if (bio) {
+      updateData.bio = bio;
+    }
+
+    if (file) {
+      const uploadResponse = await cloudinary.uploader.upload(
+        `data:${file.mimetype};base64,${file.buffer.toString("base64")}`,
+        {
+          folder: "instasight",
+          use_filename: true,
+          unique_filename: true,
+          resource_type: "image",
+        }
+      );
+
+      updateData.profile_picture = uploadResponse.secure_url;
+    }
+
+    return await update(this.models, id, updateData);
+  
   }
 
   async deleteUser(id) {

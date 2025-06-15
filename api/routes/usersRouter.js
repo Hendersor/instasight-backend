@@ -83,17 +83,14 @@ router.patch("/edit-user",
     upload.single("image"),
     schemaValidator(updateUserSchema, "body"), async (req, res, next) => {
   try {
-    const {bio} = req.body;
-    const profile_picture = req.file ? req.file.buffer : null;
+      const { bio } = req.body;
+      const userId = req.user.sub;
+      const file = req.file;
 
-    const userId  = req.user.sub;
-    const updatedData = {
-      bio: bio,
-      profile_picture: profile_picture,
-    };
+      const updatedUser = await service.updateUser(userId, { bio, file });
 
-    const user = await service.updateUser(userId, updatedData);
-    res.json(user);
+      res.json(updatedUser);
+      res.json(user);
   } catch (error) {
     next(error);
   }

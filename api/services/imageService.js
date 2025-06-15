@@ -6,7 +6,7 @@ const {
   delet,
   findEmail,
 } = require("../helpers/services.js");
-const { claudinary } = require("../libs/claudinary.js");
+const { cloudinary } = require("../libs/cloudinary.js");
 const { v4: uuidv4 } = require("uuid");
 
 class imageService {
@@ -19,27 +19,26 @@ class imageService {
   }
 
   async createPost({ file, description, userId }) {
-    const uploadResponse = await claudinary.uploader.upload(
+    const uploadResponse = await cloudinary.uploader.upload(
       `data:${file.mimetype};base64,${file.buffer.toString("base64")}`,
       {
-        folder: "instasight/posts",
+        folder: "instasight",
+        resource_type: "image",
         use_filename: true,
         unique_filename: true,
-        resource_type: "image",
+        overwrite: false,
       }
     );
 
-    return uploadResponse
+    const post = {
+      id: uuidv4(),
+      img: uploadResponse.secure_url,
+      user_id: userId,
+      description,
+      created_at: new Date(),
+    };
 
-  //   const post = {
-  //     id: uuidv4(),  
-  //     img: uploadResponse.secure_url, 
-  //     user_id: userId,
-  //     description,
-  //     created_at: new Date(),
-  //   };
-
-  //   return await add(this.models, post);
+    return await add(this.models, post);
   }
 
   async deletePost(id) {
