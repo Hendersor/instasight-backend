@@ -29,17 +29,17 @@ class imageService {
       }
     );
 
-    console.log(uploadResponse)
+    return uploadResponse
 
-    const post = {
-      id: uuidv4(),  
-      img: uploadResponse.secure_url, 
-      user_id: userId,
-      description,
-      created_at: new Date(),
-    };
+  //   const post = {
+  //     id: uuidv4(),  
+  //     img: uploadResponse.secure_url, 
+  //     user_id: userId,
+  //     description,
+  //     created_at: new Date(),
+  //   };
 
-    return await add(this.models, post);
+  //   return await add(this.models, post);
   }
 
   async deletePost(id) {
