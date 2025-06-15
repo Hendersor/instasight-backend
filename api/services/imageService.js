@@ -29,6 +29,8 @@ class imageService {
       }
     );
 
+    console.log(uploadResponse)
+
     const post = {
       id: uuidv4(),  
       img: uploadResponse.secure_url, 
