@@ -47,15 +47,9 @@ router.post(
         return res.status(400).json({ message: "No image uploaded" });
       }
 
-      const imageBuffer = file.buffer;
-      const post = {
-        id: uuidv4(),
-        img: imageBuffer,
-        user_id: req.user.sub,
-        description,
-        created_at: new Date(),
-      };
-      const response = await service.createPost(post);
+      const response = await service.createPost({
+        file, description, userId: req.user.sub
+      });
 
       res.status(200).json(response);
     } catch (error) {

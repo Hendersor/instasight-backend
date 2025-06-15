@@ -12,9 +12,8 @@ const ImageModel = {
     },
     img: {
         allowNull: false,
-        type: DataTypes.BLOB('long'),
+        type: DataTypes.STRING,
     },
-      
 
     user_id:{
         allowNull: false,
