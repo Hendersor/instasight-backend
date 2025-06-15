@@ -1,9 +1,16 @@
 const dotenv = require('dotenv');
+const path = require('path')
 
-dotenv.config();
+const ENV = process.env.NODE_ENV || 'development';
+
+const envPath = ENV === 'development' ? '.env' : `.env.${ENV}`;
+
+dotenv.config({ path: path.resolve(process.cwd(), envPath) });
+
+
 
 const config = {
-    env: process.env.NODE_ENV || "development",
+    env: ENV,
     port: process.env.PORT || 3000,
     dbUser: process.env.DB_USER,
     dbPassword: process.env.DB_PASSWORD,
@@ -13,11 +20,11 @@ const config = {
     jwtSecret: process.env.JWT_SECRET,
     smtp_email: process.env.SMTP_EMAIL,
     smpt_emailPass: process.env.SMTP_PASSWORD,
-    dbTest: process.env.DATABASE_URL_DEV,
-    db: process.env.DATABASE_URL,
     cloudName: process.env.CLOUD_NAME,
     apiKey: process.env.API_KEY,
-    apiSecret: process.env.API_SECRET
+    apiSecret: process.env.API_SECRET,
+    dbDev: process.env.DATABASE_URL_DEV,
+    dbProd: process.env.DATABASE_URL_PROD,
 };
 
 module.exports = { config };
