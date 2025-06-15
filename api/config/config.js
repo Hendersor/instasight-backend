@@ -15,6 +15,9 @@ const config = {
     smpt_emailPass: process.env.SMTP_PASSWORD,
     dbTest: process.env.DATABASE_URL_DEV,
     db: process.env.DATABASE_URL,
+    cloudName: process.env.CLOUD_NAME,
+    apiKey: process.env.API_KEY,
+    apiSecret: process.env.API_SECRET
 };
 
 module.exports = { config };
