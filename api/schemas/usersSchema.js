@@ -3,7 +3,7 @@ const Joi = require("joi");
 const userName = Joi.string().alphanum();
 const email = Joi.string().email();
 const password = Joi.string().alphanum();
-const id = Joi.string().guid({ version: "uuidv4" });
+const id = Joi.string().guid({version:"uuidv4"})
 
 
 const createUserSchema = Joi.object({
