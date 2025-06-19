@@ -10,6 +10,9 @@ const createUserSchema = Joi.object({
   password: password.required(),
 });
 
+const findUserSchema = Joi.object({
+    id: id.required().uuid().required(),
+})
 
 
 const updateUserSchema = Joi.object({
@@ -17,4 +20,4 @@ const updateUserSchema = Joi.object({
   bio: Joi.string().allow(null),
 });
 
-module.exports = { createUserSchema, updateUserSchema };
+module.exports = { createUserSchema, updateUserSchema, findUserSchema };
