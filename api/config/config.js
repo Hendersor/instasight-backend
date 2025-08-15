@@ -24,7 +24,7 @@ const config = {
     apiKey: process.env.API_KEY,
     apiSecret: process.env.API_SECRET,
     dbDev: process.env.DATABASE_URL_DEV,
-    dbProd: process.env.DATABASE_URL_PROD,
+    dbProd: process.env.DATABASE_URL || process.env.DATABASE_URL_PROD,
 };
 
 module.exports = { config };
